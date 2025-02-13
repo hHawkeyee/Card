@@ -33,7 +33,7 @@
 </head>
 <body>
 
-    <!-- Audio Element -->
+    <!-- Audio Player -->
     <audio id="song" controls>
         <source src="Song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -69,15 +69,19 @@
                     lyricElement.innerText = line.text;
 
                     // Random positioning for floating effect
+                    lyricElement.style.position = "absolute";
                     lyricElement.style.left = Math.random() * 70 + "%";
                     lyricElement.style.top = Math.random() * 70 + "%";
                     lyricElement.style.opacity = 1;
+                    lyricElement.style.transition = "opacity 1s ease-in-out, transform 3s ease-in-out";
+                    lyricElement.style.transform = `translateY(-50px)`;
 
                     lyricsContainer.appendChild(lyricElement);
 
                     // Remove lyrics after 4 seconds
                     setTimeout(() => {
                         lyricElement.style.opacity = 0;
+                        lyricElement.style.transform = `translateY(-100px)`;
                     }, 4000);
                 }
             });
