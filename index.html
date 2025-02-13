@@ -4,91 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photograph - Floating Lyrics</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: white;
-            text-align: center;
-            overflow: hidden;
-        }
-        .lyrics-container {
-            position: absolute;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .lyric-line {
-            position: absolute;
-            font-size: 24px;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-    </style>
+    <title>CSS Envelope + Letter (Open/Close on Click)</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope">
+                <div class="letter">
+                    <div class="text">
+                        <strong>Dearyeana .</strong>
+                        <p>
+                          Hello Yeana, I can't send you a letter, but I made this using codes just to remind you that I love you so much.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="heart"></div>
+        </div>
+    </div>
 
-    <!-- Audio Player -->
-    <audio id="song" controls>
-        <source src="Song.mp3" type="audio/mpeg">
+    <!-- Audio Element -->
+    <audio id="loveSong">
+        <source src="song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
-    <!-- Lyrics Container -->
-    <div class="lyrics-container" id="lyricsContainer"></div>
-
     <script>
-        const lyrics = [
-            { time: 5, text: "Loving can hurt, loving can hurt sometimes" },
-            { time: 10, text: "But it's the only thing that I know" },
-            { time: 15, text: "When it gets hard, you know it can get hard sometimes" },
-            { time: 20, text: "It is the only thing that makes us feel alive" },
-            { time: 28, text: "We keep this love in a photograph" },
-            { time: 33, text: "We made these memories for ourselves" },
-            { time: 40, text: "Where our eyes are never closing" },
-            { time: 45, text: "Hearts are never broken" },
-            { time: 50, text: "And time's forever frozen, still" }
-        ];
+        const envelope = document.querySelector('.envelope-wrapper');
+        const audio = document.getElementById('loveSong');
 
-        const song = document.getElementById("song");
-        const lyricsContainer = document.getElementById("lyricsContainer");
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('flap');
 
-        function showLyrics() {
-            const currentTime = song.currentTime;
-            lyricsContainer.innerHTML = ""; // Clear previous lyrics
-
-            lyrics.forEach((line, index) => {
-                if (currentTime >= line.time && currentTime < (lyrics[index + 1]?.time || Infinity)) {
-                    const lyricElement = document.createElement("div");
-                    lyricElement.classList.add("lyric-line");
-                    lyricElement.innerText = line.text;
-
-                    // Random positioning for floating effect
-                    lyricElement.style.position = "absolute";
-                    lyricElement.style.left = Math.random() * 70 + "%";
-                    lyricElement.style.top = Math.random() * 70 + "%";
-                    lyricElement.style.opacity = 1;
-                    lyricElement.style.transition = "opacity 1s ease-in-out, transform 3s ease-in-out";
-                    lyricElement.style.transform = `translateY(-50px)`;
-
-                    lyricsContainer.appendChild(lyricElement);
-
-                    // Remove lyrics after 4 seconds
-                    setTimeout(() => {
-                        lyricElement.style.opacity = 0;
-                        lyricElement.style.transform = `translateY(-100px)`;
-                    }, 4000);
-                }
-            });
-        }
-
-        song.addEventListener("timeupdate", showLyrics);
+            // Play the audio when the envelope is clicked
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+                audio.currentTime = 0; // Reset to start if clicked again
+            }
+        });
     </script>
-
 </body>
 </html>
